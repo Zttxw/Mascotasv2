@@ -1,0 +1,52 @@
+# Entorno y Secretos
+.env
+.env.*
+*.env
+*.pem
+*.key
+*.pfx
+*.cer
+*.crt
+secrets.json
+**/secrets/
+**/credentials/
+
+# Base de datos y respaldos
+*.bak
+*.sql
+*.dump
+backups/
+
+# .NET y compilación
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+TestResults/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+appsettings*.Development.json
+appsettings*.Local.json
+
+# IDEs y editores
+.vs/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.swp
+*~
+
+# Sistema Operativo
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Logs
+*.log
+logs/
