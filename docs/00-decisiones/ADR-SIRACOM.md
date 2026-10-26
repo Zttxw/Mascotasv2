@@ -15,7 +15,7 @@ Estamos en la **fase de contexto**. Este documento se entrega para que el agente
 
 **Reglas para esta fase:**
 
-1. **No escribir código de aplicación todavía.** No crear proyectos .NET, tablas SQL, migraciones ni endpoints hasta que se apruebe la arquitectura técnica (etapa 9 de la metodología).
+1. **No escribir código de aplicación todavía.** No crear proyectos .NET, tablas SQL, migraciones ni endpoints hasta que se apruebe la arquitectura técnica y el plan de calidad (etapa 8 de la metodología combinada).
 2. **No inventar decisiones.** Si algo no está resuelto en este documento, queda marcado como *Pendiente* y se pregunta al responsable del proyecto (Jeanpier).
 3. **No reinterpretar las decisiones aceptadas.** Son obligatorias para todo diseño posterior.
 4. **Lo permitido ahora:** crear la estructura de carpetas de documentación, guardar este documento en el repositorio y redactar los documentos que se soliciten, uno por vez.
@@ -220,6 +220,30 @@ Ninguna instalación puede consultar, modificar ni eliminar datos de otra. La ad
 
 ---
 
+### ADR-009 — Ciclo de vida y metodología combinada del proyecto
+**Estado:** Aceptada.
+
+**Decisión.** Adoptar un ciclo de vida combinado de diez pasos que unifica el rigor de aislamiento, gobernanza y arquitectura de SIRACOM con el diseño funcional temprano de experiencia de usuario (UI/UX), la validación con usuarios reales y el plan integral de calidad y entrega continua.
+
+**Ciclo combinado:**
+1. **Visión, objetivos y alcance integral:** Definición del producto común, módulos y capacidades futuras sin recortes prematuros de MVP.
+2. **Actores, responsabilidades, roles y permisos:** Matriz de accesos y responsabilidades institucionales y veterinarias.
+3. **Módulos, límites y dependencias:** Acoplamiento unidireccional (lo comercial depende de lo clínico, nunca al revés) y contratos entre dominios.
+4. **Procesos, reglas, estados y excepciones, junto con bocetos de interfaz (UI/UX):** Fichas de proceso en Markdown acompañadas de diseño de navegación, pantallas y formularios accesibles para personal municipal y veterinario, reconociendo que la interacción revela reglas y excepciones de negocio antes de tocar la base de datos.
+5. **Validación de procesos y bocetos con usuarios reales:** Revisión temprana de flujos y pantallas con personal municipal y de clínicas veterinarias antes de consolidar el modelo de datos.
+6. **Aislamiento por instalación, seguridad, datos personales y aspectos legales:** Garantía de base de datos y recursos independientes por cliente, cumplimiento de Ley 29733 (Perú), licencias de software y consideraciones de facturación electrónica.
+7. **Modelo de dominio y base de datos:** Modelo conceptual, lógico y físico con persistencia en PostgreSQL, respetando los procesos y reglas validados.
+8. **Arquitectura técnica y plan de calidad:** Definición de arquitectura de la aplicación (C# / .NET), contenedor Docker, pruebas automatizadas (aislamiento, seguridad, recuperación), integración continua, versiones, migraciones y respaldos probados.
+9. **Implementación por módulos:** Construcción modular e incremental basada en dependencias técnicas, con criterios de aceptación estrictos y ajuste continuo del diseño.
+10. **Validación, despliegue y operación:** Verificación integral con el sistema en funcionamiento, automatización de despliegue por instalación independiente y procedimientos de soporte y recuperación.
+
+**Consecuencias.** 
+- La arquitectura técnica y el plan de calidad se consolidan en la **Etapa 8** (antes de comenzar la implementación de código de la Etapa 9).
+- El diseño de interfaz no se posterga a la fase técnica; se elabora en paralelo a los procesos para alimentar tempranamente el modelo de datos.
+- Se mantiene el principio de que los diagramas, bocetos y fichas residen en Git como fuente de verdad en Markdown.
+
+---
+
 ## 4. Principios técnicos generales
 
 - Backend en **C# y .NET**; base de datos **PostgreSQL**.
@@ -233,21 +257,23 @@ Ninguna instalación puede consultar, modificar ni eliminar datos de otra. La ad
 
 ---
 
-## 5. Metodología de diseño (orden obligatorio)
+## 5. Metodología de diseño y ciclo combinado (orden obligatorio)
 
 1. Visión, objetivos y alcance funcional integral.
 2. Actores, responsabilidades, roles y permisos.
 3. Módulos, límites y dependencias entre dominios.
-4. Procesos principales y alternativos de cada módulo.
-5. Reglas de negocio, estados, validaciones, excepciones y restricciones.
-6. Límites de cada instalación y mecanismos de aislamiento.
-7. Modelo conceptual del dominio.
-8. Modelo lógico y físico de la base de datos.
-9. Arquitectura, seguridad, auditoría, despliegue y actualización.
-10. Pruebas funcionales, de integración, aislamiento, seguridad y recuperación.
-11. Planificación de la implementación por dependencias, manteniendo el alcance integral documentado.
+4. Procesos, reglas, estados y excepciones, junto con bocetos de interfaz (UI/UX).
+5. Validación de procesos y bocetos con usuarios reales (personal municipal y veterinario).
+6. Aislamiento por instalación, seguridad, datos personales (Ley 29733) y aspectos legales.
+7. Modelo de dominio y base de datos (conceptual, lógico y físico en PostgreSQL).
+8. Arquitectura técnica y plan de calidad (pruebas, CI/CD, versionado, migraciones y respaldos).
+9. Implementación por módulos con criterios de aceptación y ajuste de diseño.
+10. Validación, despliegue y operación.
 
-**No** diseñar la base de datos sin conocer los procesos que debe soportar. **No** programar módulos aislados sin definir sus relaciones y responsabilidades. Las etapas se revisan entre sí: si un proceso revela una regla que afecta a otro módulo, se actualiza el diseño antes de aprobarlo.
+**Reglas del ciclo:**
+- **No** diseñar la base de datos sin conocer los procesos que debe soportar ni haber validado los bocetos de interacción.
+- **No** programar módulos aislados sin definir sus relaciones, responsabilidades y plan de pruebas.
+- Las etapas se retroalimentan: el diseño de pantallas revela excepciones que afinan las fichas de proceso antes de congelar el modelo de datos.
 
 ### Orden sugerido de procesos a documentar
 
