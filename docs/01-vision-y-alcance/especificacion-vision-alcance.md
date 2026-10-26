@@ -31,7 +31,7 @@ El sistema sustituye los registros fragmentados en cuadernos físicos, hojas de 
 1. **Garantizar la trazabilidad médica integral:** Consolidar una historia clínica única por animal que integre consultas, vacunaciones, desparasitaciones, intervenciones quirúrgicas y tratamientos realizados tanto en sede fija como en campañas públicas.
 2. **Optimizar el control de abastecimiento, compras y costos:** Administrar el catálogo de proveedores, órdenes de compra, costos de adquisición y existencias de medicamentos e insumos veterinarios con control estricto de lotes, vencimientos y consumo en tiempo real vinculado a cada atención médica o brigada de campaña.
 3. **Transparentar la gestión institucional:** Proporcionar métricas confiables de cobertura de campañas (vacunación antirrábica, esterilizaciones), metas de bienestar animal y custodia responsable de animales alojados o rescatados.
-4. **Preservar la soberanía y seguridad de los datos:** Asegurar el aislamiento físico y lógico de la información de cada entidad, con auditoría exhaustiva de modificaciones y estricto respeto a la normativa de protección de datos personales.
+4. **Preservar la soberanía y seguridad de los datos:** Asegurar el aislamiento físico y lógico de la información de cada entidad, con auditoría rigurosa de modificaciones y estricto respeto a la normativa de protección de datos personales.
 
 ### 2.2 Objetivos Específicos
 * Reducir tiempos de registro en campañas masivas mediante flujos de digitación ágil diseñados para personal de campo conectado.
@@ -67,7 +67,7 @@ El alcance se estructura sin recortes artificiales (sin un MVP restrictivo que m
 * **Gestión técnica de usuarios:** Altas, bajas, reseteo de claves y asignación de roles predefinidos dentro de la instalación local.
 * **Configuración institucional:** Datos de la entidad (nombre, logotipo, dirección, sedes/consultorios locales).
 * **Parámetros maestros:** Catálogo configurable de especies (canino y felino como base inicial), razas, tipos de procedimientos, vías de administración de medicamentos y causales de atención.
-* **Pistas de auditoría:** Segregación estricta entre bitácora técnica de sistema (accesible por TI) y bitácora de negocio (accesible solo por Jefatura y Auditoría). Registro inmutable de transacciones relevantes (fecha, hora, usuario, IP, operación realizada, valores anteriores y nuevos).
+* **Pistas de auditoría y bitácoras:** Segregación estricta entre la bitácora técnica de infraestructura (consultable por TI, Jefatura y Auditoría con fines técnicos delimitados) y la bitácora de negocio (restringida a Jefatura y Auditoría para eventos de dominio). La protección contra alteración de registros, cobertura de eventos, retención y excepciones admisibles constituyen requisitos de seguridad por validar en el diseño técnico (conforme a **PEND-07**).
 * **Gestión de almacenamiento:** Repositorio de evidencias (fotografías del animal, actas firmadas, recetas escaneadas) vinculado a volúmenes persistentes protegidos.
 
 ### 3.2 Dominio 2 (ADR Dominio B): Animales y Responsables (Identificación y Trazabilidad)
@@ -77,13 +77,13 @@ El alcance se estructura sin recortes artificiales (sin un MVP restrictivo que m
 * **Trazabilidad y no duplicidad:**
   - Vinculación histórica entre animales y responsables (adopción, cambio de tenedor, actualización de domicilio).
   - Regla estricta de no fusión: jamás consolidar automáticamente dos animales por coincidencia fonética de nombre o por pertenecer al mismo responsable. Las coincidencias sospechosas se alertan para verificación humana del operador.
-* **Regla de anulación:** Las anulaciones o desactivaciones de registros de animales o de responsables **exigen motivo justificado y conservan historial completo**. En animales que ya posean historial clínico o de campaña, la anulación requiere aprobación obligatoria de la Jefatura. No existe borrado físico que elimine expedientes de la base de datos.
+* **Regla de anulación y conservación:** No existe borrado físico operativo para registros de animales ni de responsables. Las inactivaciones o anulaciones de registros exigen consignar motivo justificado y conservan historial completo. En animales que ya posean historial clínico o de campaña, la anulación requiere aprobación obligatoria de la Jefatura. La conservación temporal, rectificación, anonimización o eventual eliminación definitiva de estos datos seguirá la política de protección y ciclo de vida de datos personales validada en **PEND-05**, sin asumir una promesa de conservación indefinida absoluta.
 
 ### 3.3 Dominio 3 (ADR Dominio C): Gestión Médica Veterinaria
 * **Agenda y citas:** Programación de citas para consultorio fijo (consultas generales, cirugías programadas, controles).
 * **Atención y triaje:** Registro de constantes vitales (peso, temperatura, frecuencia cardíaca, condición corporal).
 * **Historia clínica cronológica:** Registro estructurado de motivo de consulta, anamnesis, examen clínico, diagnóstico presuntivo/definitivo y plan terapéutico.
-* **Identificación del profesional actuante:** Todo acto clínico, diagnóstico, cirugía o prescripción registra de manera obligatoria la identidad del Médico Veterinario responsable, incluyendo su número de colegiatura profesional.
+* **Identificación del profesional actuante:** Todo acto clínico, diagnóstico, cirugía o prescripción registra de manera obligatoria la identidad del Médico Veterinario responsable. La inclusión del número de colegiatura profesional se establece como campo obligatorio por decisión de diseño funcional, sujeta a verificación legal sobre su exigibilidad y formalidad en expedientes veterinarios digitales (conforme a **PEND-08**).
 * **Inmutabilidad de registros cerrados:** Una vez marcada como **cerrada** la atención médica veterinaria, el registro **no admite edición ni sobrescritura**. Cualquier corrección o aclaración posterior se efectúa exclusivamente mediante notas rectificatorias o adendas médicas fechadas y auditadas que preservan íntegro el texto original.
 * **Prescripción y recetas:** Generación de receta médica veterinaria con especificación de fármacos, dosis, posología y duración.
 * **Procedimientos preventivos:** Registro de vacunaciones (con laboratorio y número de lote) y desparasitaciones, calculando fechas sugeridas de revacunación.
@@ -98,10 +98,10 @@ El alcance se estructura sin recortes artificiales (sin un MVP restrictivo que m
 
 ### 3.5 Dominio 5 (ADR Dominio E): Farmacia, Abastecimiento, Compras y Costos
 * **Proveedores y compras institucionales:** Catálogo de proveedores registrados, registro de órdenes de compra, comprobantes de ingreso de mercadería con registro obligatorio de costos unitarios y costos totales de adquisición. Esto aplica tanto a clínicas privadas como a municipalidades e instituciones públicas, que requieren controlar presupuestos y costos de insumos aunque brinden servicios gratuitos.
-* **Catálogo de insumos y fármacos:** Medicamentos, vacunas, anestésicos, material de curación, alimentos y microchips, asociados a sus costos promedio de adquisición.
+* **Catálogo de insumos y fármacos:** Medicamentos, vacunas, anestésicos, material de curación, alimentos y microchips, asociados a sus costos promedio de adquisición. Sujeto a **PEND-14** para sustancias de uso regulado.
 * **Control multialmacén:** Almacén central, botiquín de consultorio y stock temporal en custodia de brigadas de campaña.
 * **Trazabilidad por lote y vencimiento:** Ingreso con número de lote y fecha de vencimiento; salidas y dispensación bajo principio FEFO (primero en vencer, primero en salir).
-* **Consumo automático y costos asociados:** Descuento directo de stock derivado de atenciones clínicas o aplicaciones en campañas, calculando el costo del insumo consumido por atención.
+* **Consumo automático y costos asociados:** Descuento directo de stock generado automáticamente por el sistema como resultado de atenciones clínicas cerradas o aplicaciones en campañas, calculando el costo del insumo consumido.
 * **Ajustes y transferencias:** Registro formal de mermas, pérdidas o transferencias entre depósitos mediante contra-asientos justificados y con aprobación de rol supervisor.
 * **Alertas preventivas:** Notificaciones visuales de stock mínimo crítico y productos próximos a caducar (30/60/90 días).
 
@@ -167,8 +167,12 @@ Para evitar duplicidades y dispersión de criterios, todas las decisiones abiert
 En particular, aplican a esta especificación los ítems:
 * **PEND-01:** Confirmación del cliente prioritario para validación.
 * **PEND-02:** Obligatoriedad de formatos oficiales de salud pública (MINSA/DIRIS).
-* **PEND-03:** Modalidad de integración de facturación electrónica.
+* **PEND-03:** Modalidad de integración de facturación electrónica y comprobantes tributarios.
 * **PEND-04:** Especies secundarias y reglas clínicas particulares.
-* **PEND-05:** Política institucional de protección de datos personales y retención (Ley 29733).
+* **PEND-05:** Política institucional de protección de datos personales, ciclo de vida y retención (Ley 29733).
 * **PEND-06:** Procedimiento operativo de contingencia en campañas ante ausencia o corte de conectividad a Internet.
+* **PEND-07:** Requisitos de seguridad de bitácoras y garantías técnicas de aislamiento (ADR-001/ADR-002).
+* **PEND-08:** Validez y mecanismo de formalización de cierre de actos médicos veterinarios y exigibilidad de colegiatura.
 * **PEND-12:** Confirmación y significado oficial del acrónimo SIRACOM.
+* **PEND-13:** Validez legal y condiciones de delegación de actos veterinarios en campañas y presencia exigida del Médico garante.
+* **PEND-14:** Marco de control, custodia y dispensación de medicamentos veterinarios de uso regulado.
