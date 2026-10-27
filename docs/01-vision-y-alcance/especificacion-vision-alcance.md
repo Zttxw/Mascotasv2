@@ -1,11 +1,11 @@
 # SIRACOM — Especificación de Visión, Objetivos y Alcance Integral
 
 **Documento:** Especificación Funcional de Visión y Alcance  
-**Versión:** 0.1 (Borrador corregido)  
+**Versión:** 0.1 (Línea base v0.1)  
 **Fecha:** 26 de octubre de 2026  
-**Estado:** **Borrador** (Pendiente de revisión y aprobación por Jeanpier)  
+**Estado:** **Aprobado (línea base v0.1)** (Aprobado formalmente por Jeanpier el 26 de octubre de 2026 mediante ADR-010)  
 **Ubicación en repositorio:** `docs/01-vision-y-alcance/especificacion-vision-alcance.md`  
-**Referencia arquitectónica:** ADR-001 a ADR-009 ([ADR-SIRACOM.md](../00-decisiones/ADR-SIRACOM.md))  
+**Referencia arquitectónica:** ADR-001 a ADR-010 ([ADR-SIRACOM.md](../00-decisiones/ADR-SIRACOM.md))  
 **Registro de decisiones pendientes:** [Registro Unificado de Pendientes](../00-decisiones/pendientes.md)
 
 ---
@@ -21,7 +21,7 @@ El sistema sustituye los registros fragmentados en cuadernos físicos, hojas de 
 * **Producto común con núcleo unificado:** SIRACOM no se desarrolla como dos software bifurcados (público y privado). Es una única base de código modular construida con C# y .NET, con persistencia en PostgreSQL y empaquetamiento en contenedores Docker.
 * **Instalaciones independientes (ADR-001):** Cada cliente cuenta con su propia instalación autónoma, con base de datos, almacenamiento de evidencias y configuración de usuarios y módulos totalmente independientes. No existe una base de datos multiempresa compartida ni un superadministrador central con acceso implícito o permanente a los datos de los clientes.
 * **Desacoplamiento comercial-clínico (ADR-005):** El núcleo clínico veterinario y de registro animal es completamente autónomo y no depende de facturación, tarifas ni caja. La desactivación del módulo comercial, o la presencia de fallas operativas en la caja o en el registro de cobros, **bajo ninguna circunstancia bloquea ni impide** registrar consultas médicas, tratamientos, diagnósticos, vacunaciones, desparasitaciones, cirugías ni campañas institucionales. Los módulos comerciales consumen información de atenciones e insumos mediante contratos explícitos, pero jamás imponen restricciones al acto médico o a la campaña pública gratuita.
-* **Cliente de referencia para validación (Hipótesis de trabajo):** Se adopta provisionalmente a la **Municipalidad (Área de Zoonosis y Bienestar Animal)** como **hipótesis de trabajo** para contrastar el primer borrador, debido a que su operatoria cubre el espectro funcional más extenso (campañas masivas, consultorio, albergue temporal, adopciones, control de insumos y padrón de tenencia). Esta adopción es una referencia de diseño preliminar y no constituye un compromiso contractual ni funcional cerrado mientras la decisión **PEND-01** permanezca abierta. Se mantiene en todo momento la compatibilidad plena con el modelo de **Clínica Veterinaria Privada** mediante la activación/desactivación modular de submódulos comerciales (tarifas, cobros, caja).
+* **Cliente de referencia confirmado (ADR-010):** Se adopta formalmente a la **Municipalidad (Área de Zoonosis y Bienestar Animal)** como **cliente de referencia confirmado** para el diseño de flujos, bocetos de pantalla y validación de casos de uso (ADR-010), en razón de que su operatoria cubre el espectro funcional más extenso (campañas masivas, consultorio, albergue temporal, adopciones, control de insumos y padrón de tenencia). Se mantiene en todo momento de manera estricta la compatibilidad plena con el modelo de **Clínica Veterinaria Privada** mediante la activación/desactivación modular de submódulos comerciales (tarifas, cobros, caja), tratándose de un producto único y configurable (ADR-001 y ADR-005).
 
 ---
 
@@ -93,7 +93,7 @@ El alcance se estructura sin recortes artificiales (sin un MVP restrictivo que m
 * **Requisito de conectividad y riesgo aceptado (ADR-003):** Por definición arquitectónica vigente, **las campañas masivas en campo requieren conexión a Internet activa** (mediante red celular/datos móviles). Esto se asume formalmente como un **riesgo operativo aceptado** ante posibles zonas sin cobertura o caídas de señal. El procedimiento de contingencia operativa (fichas físicas estandarizadas y digitación diferida) queda registrado bajo el ítem **PEND-06**.
 * **Planificación y programación:** Configuración de campaña (nombre, objetivo, tipo: antirrábica, esterilización masiva, empadronamiento), fecha de inicio y término, zona geográfica y metas estimadas.
 * **Asignación de recursos:** Designación del Médico Veterinario responsable de campaña, personal/brigadistas asignados y lotes de biológicos/insumos despachados desde el almacén.
-* **Ejecución, registro rápido y descuento de inventario:** Interfaz optimizada para digitación ágil en campo conectado (animal intervenido, responsable, biológico aplicado). El descuento de stock se produce en tiempo real sobre el sub-inventario temporal asignado a la brigada de campaña. Al término de la jornada, en la liquidación y balance de campaña, los biológicos o insumos no utilizados devueltos físicamente al almacén central se reincorporan al stock general. Cualquier discrepancia física, rotura de frasco, merma o dosis inutilizada producida en campo se corrige formalmente mediante un contra-asiento justificado en el balance de cierre, aprobado por el rol supervisor.
+* **Ejecución, registro rápido y descuento de inventario:** Interfaz optimizada para digitación ágil en campo conectado (animal intervenido, responsable, biológico aplicado). El descuento de stock se produce en tiempo real sobre el sub-inventario temporal asignado a la brigada de campaña. En caso de contingencia o corte de conectividad que obligue a una digitación diferida posterior, las reglas de imputación temporal y descuento de stock diferido se rigen por el protocolo de contingencia de **PEND-06**. Al término de la jornada, en la liquidación y balance de campaña, los biológicos o insumos no utilizados devueltos físicamente al almacén central se reincorporan al stock general. Cualquier discrepancia física, rotura de frasco, merma o dosis inutilizada producida en campo se corrige formalmente mediante un contra-asiento justificado en el balance de cierre, aprobado por el rol supervisor.
 * **Cierre y balance:** Liquidación de campaña, balance de insumos utilizados frente a sobrantes devueltos al almacén y consolidación estadística.
 
 ### 3.5 Dominio 5 (ADR Dominio E): Farmacia, Abastecimiento, Compras y Costos
@@ -164,7 +164,6 @@ Para evitar duplicidades y dispersión de criterios, todas las decisiones abiert
 👉 **[Registro Unificado de Decisiones Pendientes (docs/00-decisiones/pendientes.md)](../00-decisiones/pendientes.md)**
 
 En particular, aplican a esta especificación los ítems:
-* **PEND-01:** Confirmación del cliente prioritario para validación.
 * **PEND-02:** Obligatoriedad de formatos oficiales de salud pública (MINSA/DIRIS).
 * **PEND-03:** Modalidad de integración de facturación electrónica y comprobantes tributarios.
 * **PEND-04:** Especies secundarias y reglas clínicas particulares.
@@ -172,6 +171,6 @@ En particular, aplican a esta especificación los ítems:
 * **PEND-06:** Procedimiento operativo de contingencia en campañas ante ausencia o corte de conectividad a Internet.
 * **PEND-07:** Requisitos de seguridad de bitácoras y garantías técnicas de aislamiento (ADR-001/ADR-002).
 * **PEND-08:** Validez y mecanismo de formalización de cierre de actos médicos veterinarios y exigibilidad de colegiatura.
-* **PEND-12:** Confirmación y significado oficial del acrónimo SIRACOM.
+* **PEND-12:** Nombre comercial definitivo del producto (SIRACOM como nombre de trabajo).
 * **PEND-13:** Validez legal y condiciones de delegación de actos veterinarios en campañas y presencia exigida del Médico garante.
 * **PEND-14:** Marco de control, custodia y dispensación de medicamentos veterinarios de uso regulado.
