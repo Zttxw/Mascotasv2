@@ -292,20 +292,11 @@ Estos procesos están conectados entre sí. No deben existir varios registros pa
 
 ## 6. Decisiones abiertas
 
-| Decisión pendiente | Por qué importa | Responsable propuesto |
-|---|---|---|
-| Modelo de alojamiento y operación (quién respalda, actualiza y recupera) | Define responsabilidades, respaldos y soporte. | Producto y arquitectura |
-| Política de datos personales y retención (Ley 29733 en Perú) | Define permisos, conservación, eliminación y obligaciones contractuales. Sube de prioridad si el proveedor aloja datos de clientes. | Producto, seguridad y asesoría legal |
-| Estrategia de actualizaciones y versionado | Define compatibilidad entre versión de aplicación y de base de datos, y cuántas versiones se soportan a la vez. | Arquitectura y operaciones |
-| Licenciamiento de módulos | Define cómo se habilitan funciones y qué derechos recibe cada cliente. | Producto y asesoría contractual |
-| Identificación de animales | Define duplicados, identificadores y reglas de trazabilidad. | Analista funcional |
-| Facturación electrónica en Perú | Define alcance de integración, credenciales y responsabilidades (SUNAT, proveedores autorizados). | Producto, arquitectura y asesoría tributaria |
-| Respaldos y recuperación | Define pérdida de datos admisible y tiempos de recuperación. | Arquitectura y operaciones |
-| Seguridad y auditoría (incluye acceso de soporte) | Define controles, registros y acceso temporal autorizado. | Seguridad y arquitectura |
-| Idioma y localización | Formatos y normativa; relevante si se vende fuera de Perú. | Producto |
-| Alternativa a Docker para clientes sin ese entorno | Define opciones de instalación. | Arquitectura y operaciones |
+Las decisiones abiertas, vacíos de información e incertidumbres normativas y técnicas de SIRACOM se gestionan de forma unificada en el registro institucional de pendientes para evitar duplicidades y divergencias:
 
-La asignación de responsables es una propuesta organizativa, no una aprobación.
+👉 **[Registro Unificado de Decisiones Pendientes (docs/00-decisiones/pendientes.md)](pendientes.md)**
+
+Dicho registro contiene el catálogo completo de decisiones abiertas (modelo de alojamiento, política de datos personales, estrategia de actualizaciones, licenciamiento de módulos, identificación de animales, facturación electrónica, respaldos y recuperación, seguridad del soporte, idioma y localización, alternativa a Docker, entre otras), asignando a cada una su impacto, condición de cierre explícita y responsable propuesto.
 
 ---
 
