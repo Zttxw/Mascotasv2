@@ -1,9 +1,12 @@
 # SIRACOM — Registro de decisiones arquitectónicas (ADR) y contexto para el agente
 
-**Versión del documento:** 1.0 (definitivo para la fase de contexto)
-**Fecha:** 26 de octubre de 2026
-**Ubicación sugerida en el repositorio:** `docs/00-decisiones/ADR-SIRACOM.md`
-**Destinatario:** agente de desarrollo (codeador)
+> [!NOTE]
+> SIRACOM es el nombre de trabajo del producto; el nombre comercial puede cambiar.
+
+**Versión del documento:** 1.1 (actualizado con decisiones de producto y línea base v0.1)  
+**Fecha:** 26 de octubre de 2026  
+**Ubicación sugerida en el repositorio:** `docs/00-decisiones/ADR-SIRACOM.md`  
+**Destinatario:** agente de desarrollo (codeador)  
 
 ---
 
@@ -241,6 +244,27 @@ Ninguna instalación puede consultar, modificar ni eliminar datos de otra. La ad
 - La arquitectura técnica y el plan de calidad se consolidan en la **Etapa 8** (antes de comenzar la implementación de código de la Etapa 9).
 - El diseño de interfaz no se posterga a la fase técnica; se elabora en paralelo a los procesos para alimentar tempranamente el modelo de datos.
 - Se mantiene el principio de que los diagramas, bocetos y fichas residen en Git como fuente de verdad en Markdown.
+
+---
+
+### ADR-010 — Decisiones de producto confirmadas y parametrización de marca
+**Estado:** Aceptada.  
+**Fecha:** 26 de octubre de 2026.
+
+**Contexto.**  
+El responsable del proyecto (Jeanpier) formalizó el 26 de octubre de 2026 resoluciones de alcance y producto para cerrar decisiones preliminares e instruir la aprobación de la línea base v0.1 de las especificaciones funcionales (documentos 01 y 02).
+
+**Decisión.**
+1. **Cliente de referencia confirmado (Cierre de PEND-01):** La Municipalidad (áreas de Zoonosis y Bienestar Animal) queda ratificada formalmente como el cliente de referencia para el diseño de flujos, casos de uso y pantallas. Se mantiene de forma estricta la compatibilidad operativa con clínicas veterinarias privadas, organizaciones de rescate y consultorios independientes; el producto de software es uno solo y configurable (ADR-001 y ADR-005).
+2. **Conjuntos de permisos configurables por instalación (Cierre de PEND-11):** Los perfiles de Auditor, Coordinador de Campaña y Encargado de Albergue se establecen formalmente como **conjuntos de permisos configurables por instalación** y no como roles fijos obligatorios. El catálogo de roles base estándar se mantiene cerrado en los 8 roles (01 a 08). Cada instalación activa y asigna estos permisos complementarios según los módulos habilitados y las necesidades operativas de la organización.
+3. **Nombre de trabajo del producto y estado de PEND-12:** «SIRACOM» se ratifica formalmente como el **nombre de trabajo** del proyecto; el nombre comercial definitivo puede ser distinto y será determinado mediante decisión formal escrita del responsable (PEND-12). Se prohíbe inventar o asumir retroactivamente significados arbitrarios para dicho acrónimo.
+4. **Regla técnica de desacoplamiento de marca:** El nombre del producto no debe estar escrito de forma rígida (hardcoded) en el código fuente, en esquemas de base de datos, en archivos de configuración ni en los textos y etiquetas de la interfaz de usuario. Debe definirse y gestionarse en un único punto centralizado y configurable (parámetro de marca / denominación institucional del producto).
+5. **Diferimiento de nombres de proyectos y repositorio:** Las decisiones definitivas relativas a la nomenclatura de soluciones de código, proyectos .NET, espacios de nombres (namespaces) y el nombre definitivo del repositorio en GitHub (actualmente `Mascotasv2`) se difieren formalmente hasta la resolución de PEND-12 o hasta el inicio del diseño de la arquitectura técnica (Paso 8 del ciclo combinado), lo que ocurra primero.
+
+**Consecuencias.**
+- Se elimina la etiqueta de «hipótesis de trabajo» en la especificación de visión y alcance.
+- En la especificación de actores y roles se retiran las etiquetas de roles «propuestos», integrándolos como paquetes de permisos complementarios configurables.
+- Toda referencia textual en componentes de software e interfaces deberá diseñarse parametrizable desde el inicio.
 
 ---
 
