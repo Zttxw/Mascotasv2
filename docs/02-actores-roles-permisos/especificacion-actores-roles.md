@@ -1,11 +1,11 @@
 # SIRACOM — Especificación de Actores, Roles y Permisos
 
 **Documento:** Especificación Funcional de Actores, Roles y Permisos  
-**Versión:** 0.1 (Borrador corregido)  
+**Versión:** 0.1 (Línea base v0.1)  
 **Fecha:** 26 de octubre de 2026  
-**Estado:** **Borrador** (Pendiente de revisión y aprobación por Jeanpier)  
+**Estado:** **Aprobado (línea base v0.1)** (Aprobado formalmente por Jeanpier el 26 de octubre de 2026 mediante ADR-010)  
 **Ubicación en repositorio:** `docs/02-actores-roles-permisos/especificacion-actores-roles.md`  
-**Referencia arquitectónica:** ADR-001, ADR-005, ADR-009 ([ADR-SIRACOM.md](../00-decisiones/ADR-SIRACOM.md))  
+**Referencia arquitectónica:** ADR-001, ADR-005, ADR-009, ADR-010 ([ADR-SIRACOM.md](../00-decisiones/ADR-SIRACOM.md))  
 **Registro de decisiones pendientes:** [Registro Unificado de Pendientes](../00-decisiones/pendientes.md)
 
 ---
@@ -62,7 +62,7 @@ El modelo de seguridad y control de acceso de SIRACOM se rige por los siguientes
             │                       └───────────────────────┘               │   temporal y auditado)│
             ▼                                                               └───────────────────────┘
 ┌───────────────────────────────────────────────┐
-│ ROLES BASE ESTÁNDAR:                          │
+│ ROLES BASE ESTÁNDAR (8 ROLES):                │
 │ • ROL-01: Administrador TI Local              │
 │ • ROL-02: Jefe / Supervisor de Área           │
 │ • ROL-03: Médico Veterinario (Colegiado)      │
@@ -73,7 +73,7 @@ El modelo de seguridad y control de acceso de SIRACOM se rige por los siguientes
 │ • ROL-08: Cajero / Cobranzas                  │
 │                                               │
 │ CONJUNTOS DE PERMISOS CONFIGURABLES:          │
-│ (ROLES PROPUESTOS, PENDIENTES DE DECISIÓN)    │
+│ (HABILITADOS SEGÚN MÓDULOS ACTIVOS Y CLIENTE) │
 │ • ROL-09: Auditor (Solo lectura por ámbito)   │
 │ • ROL-10: Coordinador de Campaña              │
 │ • ROL-11: Encargado de Albergue / Canil       │
@@ -124,32 +124,32 @@ Personas registradas por los operadores cuya información es custodiada por la i
 
 ---
 
-## 4. Conjuntos de Permisos Configurables (Roles Propuestos, Pendientes de Decisión)
+## 4. Conjuntos de Permisos Configurables por Instalación
 
-Los siguientes tres conjuntos de permisos no forman parte del estándar cerrado de roles y se catalogan formalmente como **"Propuestos, pendientes de decisión"** bajo **PEND-11**. Se detallan los permisos específicos que aportarían, justificando su asignación o tratamiento alternativo como responsabilidades asignables:
+De conformidad con la decisión del responsable del proyecto formalizada en **ADR-010** (cierre de **PEND-11**), los siguientes tres perfiles no constituyen roles fijos obligatorios, sino **conjuntos de permisos complementarios y configurables por instalación**. Se activan según los módulos habilitados y las necesidades operativas de cada cliente sobre el catálogo cerrado de 8 roles base estándar:
 
-### 4.1 Rol 09: Auditor (Solo Lectura por Ámbito) — Propuesto, pendiente de decisión
-* **Acceso por finalidad y ámbito autorizado:** El Auditor accede a los módulos y bitácoras exclusivamente dentro del marco de un mandato o comisión de auditoría formal.
-* **Salvaguardas de seguridad y privacidad:**
-  1. **Restricción de datos personales y clínicos:** Los datos identificables de ciudadanos se visualizan enmascarados/anonimizados salvo mandato expreso legal; la consulta de historias clínicas se limita a expedientes muestreados en el ámbito auditado.
-  2. Totalmente independiente de la operación diaria (no registra, no edita, no anula ni aprueba actos).
-  3. **Auditoría del auditor:** Sus consultas y descargas quedan registradas en el log de auditoría del sistema (requisito técnico de **PEND-07**).
-  4. Las exportaciones masivas de datos exigen consignación obligatoria de motivo justificado en pantalla.
-* **Mecanismo de aprobación independiente:** Para evitar conflictos de interés, la asignación y habilitación de este rol **no puede depender de la Jefatura de Área auditada**, sino de la Alta Dirección, Gerencia Municipal o Dirección Médica conforme a **PEND-15**.
-* **Propuesta de tratamiento:** Mantenerlo como **conjunto de permisos configurable por instalación**, habilitado exclusivamente bajo mandato de control formal.
+### 4.1 Perfil 09: Auditor (Solo Lectura por Ámbito Autorizado)
+* **Naturaleza y alcance:** Conjunto de permisos de fiscalización que se habilita únicamente bajo un mandato formal de control. Accede a los módulos y bitácoras exclusivamente dentro del marco de su comisión o ámbito de auditoría.
+* **Salvaguardas de seguridad y confidencialidad:**
+  1. **Enmascaramiento de datos personales:** Los datos identificables de ciudadanos y responsables se visualizan anonimizados o enmascarados, salvo mandato legal expreso que justifique la consulta nominativa. La consulta de historias clínicas se restringe a expedientes muestreados en el ámbito auditado.
+  2. Totalmente desvinculado de la operación diaria (no registra atenciones, no modifica inventarios, no anula actos ni aprueba cobros).
+  3. **Auditoría de las acciones del auditor:** Todas sus consultas, visualizaciones y descargas quedan registradas en el log de auditoría del sistema (requisito técnico de **PEND-07**).
+  4. Toda exportación masiva de datos exige consignación obligatoria de motivo justificado en pantalla.
+* **Mecanismo de aprobación independiente:** Para garantizar estricta independencia y prevenir conflictos de interés, la asignación y habilitación de este conjunto de permisos **no puede ser otorgada por la Jefatura de Área auditada**, sino exclusivamente por la Alta Dirección institucional (Gerencia Municipal o Dirección General) conforme a **PEND-15**.
 
-### 4.2 Rol 10: Coordinador de Campaña — Propuesto, pendiente de decisión
-* **Permisos específicos:** Planificación de campañas masivas institucionales, designación de brigadas de campo, retiro de lotes de insumos desde almacén y liquidación del balance final de la jornada.
-* **Delimitación estricta:** **No posee permisos clínicos.** No edita historiales clínicos, no inocula biológicos ni modifica registros médicos de vacunación (`U` clínico retirado).
-* **Propuesta de tratamiento / fusión:** No se justifica como rol independiente fijo. Se propone tratarlo como una **responsabilidad asignable** a usuarios de nivel supervisor o médico durante la vigencia de una campaña, evitando dispersión en la administración de cuentas.
+### 4.2 Perfil 10: Coordinador de Campaña
+* **Naturaleza y asignación:** Conjunto de permisos operativos asignables temporalmente a usuarios que ya cuenten con rol de **Jefe de Área (ROL-02) o Médico Veterinario (ROL-03)** durante la ejecución de una campaña masiva en campo.
+* **Permisos específicos:** Planificación logística de campañas masivas, asignación de brigadas de campo, retiro de lotes de biológicos/insumos de almacén y liquidación del balance de cierre.
+* **Delimitación estricta:** **No posee permisos clínicos propios.** No edita diagnósticos ni altera historias clínicas. Las inoculaciones y actos médicos realizados durante la campaña son registrados por los brigadistas u operadores bajo la responsabilidad del Médico colegiado garante.
 
-### 4.3 Rol 11: Encargado de Albergue / Canil — Propuesto, pendiente de decisión
+### 4.3 Perfil 11: Encargado de Albergue / Canil
+* **Naturaleza y activación condicional:** Conjunto de permisos que **se activa exclusivamente cuando la instalación habilita el módulo de Albergue, Custodia Temporal y Adopciones**.
 * **Permisos específicos:**
-  - *Creación de animales (`C`):* Justificado exclusivamente para el registro inicial de animales rescatados, en abandono o decomisados que ingresan a custodia sin registro previo en la instalación.
-  - *Sin anulación directa (`D`):* No tiene permiso de borrado ni inactivación directa sobre animales; solo puede registrar solicitudes de baja o traslado (`S`) dirigidas a Jefatura.
-  - *Datos de responsables limitados:* No administra el padrón de tenencia general; sus permisos sobre responsables se restringen a postulantes a adopción y donantes/denunciantes vinculados a expedientes de rescate.
-  - *Delimitación clínica:* **No posee permisos de edición clínica** (`U` clínico retirado en triaje, constantes y vacunación). El estado médico y tratamientos de los animales alojados son registrados exclusivamente por el Médico Veterinario o Asistente clínico asignado. Albergue gestiona únicamente la bitácora conductual y alimentación no médica.
-* **Propuesta de tratamiento:** Mantenerlo como **conjunto de permisos configurable por instalación**, habilitado únicamente en clientes con instalaciones de albergue físico. Si la entidad no cuenta con un cuidador exclusivo, las funciones de adopción se asignan al Recepcionista (ROL-06) y las de bitácora al Asistente Veterinario (ROL-04).
+  - *Creación de animales (`C`):* Justificado exclusivamente para el registro inicial de animales ingresados por rescate, abandono o decomiso que carecen de registro previo en la instalación.
+  - *Sin anulación directa (`D`):* No tiene permiso de inactivación ni borrado sobre animales; solo puede registrar solicitudes de baja o traslado (`S`) dirigidas a Jefatura.
+  - *Datos de responsables limitados:* No administra el padrón general de tenencia; sus permisos sobre responsables se restringen a postulantes a adopción y donantes/denunciantes vinculados al expediente de rescate.
+  - *Delimitación clínica:* **No posee permisos de edición clínica** (`U` clínico retirado en triaje, constantes y vacunas). La atención sanitaria y tratamientos médicos de los animales alojados son ejecutados y registrados exclusivamente por el personal veterinario. Albergue administra únicamente la bitácora conductual y alimentación no médica.
+* **Flexibilidad operativa:** Si la entidad no cuenta con un cuidador exclusivo de albergue, las funciones de adopción pueden ser asignadas al Recepcionista (ROL-06) y las de bitácora diaria al Asistente Veterinario (ROL-04).
 
 ---
 
@@ -171,7 +171,7 @@ Los siguientes tres conjuntos de permisos no forman parte del estándar cerrado 
 
 ### 5.2 Matriz Granular de Autorización Preliminar
 
-| Dominio Funcional / Submódulo | Admin TI (01) | Jefe Área (02) | Médico Vet. (03) | Asistente (04) | Brigada Campo (05) | Recepcionista (06) | Farmacia (07) | Cajero (08) | Auditor [Prop.] (09) | Coord. Camp. [Prop.] (10) | Enc. Albergue [Prop.] (11) |
+| Dominio Funcional / Submódulo | Admin TI (01) | Jefe Área (02) | Médico Vet. (03) | Asistente (04) | Brigada Campo (05) | Recepcionista (06) | Farmacia (07) | Cajero (08) | Auditor (09) | Coord. Camp. (10) | Enc. Albergue (11) |
 |---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
 | **Administración Técnica y Cuentas** | C-U-D-M | R-A (1) | - | - | - | - | - | - | R (2) | - | - |
 | **Bitácora Técnica de Sistema** | R-X | R (3) | - | - | - | - | - | - | R-X (3) | - | - |
@@ -253,9 +253,12 @@ En particular, aplican a esta especificación los ítems:
 * **PEND-08:** Validez y mecanismo de formalización de cierre de actos médicos veterinarios y exigibilidad de colegiatura.
 * **PEND-09:** Límites operativos de caja chica, arqueo y protocolo de anulación de cobros.
 * **PEND-10:** Procedimiento formal de reasignación y transferencia de dueños de animales.
-* **PEND-11:** Decisión formal sobre roles propuestos (Auditor, Coordinador de Campaña, Encargado de Albergue).
+* **PEND-11:** Decisión formal sobre roles propuestos (Cerrada en ADR-010 como conjuntos de permisos configurables).
 * **PEND-13:** Validez legal y condiciones de delegación de actos veterinarios en campañas y presencia exigida del Médico garante.
 * **PEND-14:** Marco de control, custodia y dispensación de medicamentos veterinarios de uso regulado.
 * **PEND-15:** Mecanismo institucional y autoridad competente para designación y aprobación del rol Auditor.
 * **PEND-16:** Esquema de operación y asunción de riesgo para organizaciones pequeñas o consultorios unipersonales.
 * **PEND-17:** Política técnica de autenticación, caducidad de contraseñas y doble factor (2FA).
+* **PEND-25:** Alcance y gobernanza de los "parámetros sensibles" autorizados por la Alta Dirección.
+* **PEND-26:** Protocolo de reinicio de credenciales de la Jefatura de Área y mitigación de enlaces por correo administrado por TI.
+* **PEND-27:** Asignación de médico titular de reemplazo para adendas clínicas en consultorios unipersonales o jefaturas no veterinarias.
